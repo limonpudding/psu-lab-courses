@@ -1,0 +1,1 @@
+drop table if exists INSTRUMENT_TO_ROOM;

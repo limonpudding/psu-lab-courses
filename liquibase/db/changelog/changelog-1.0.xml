@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd
+    http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.9.xsd ">
+    <changeSet id="20210602-00" author="martyshenko">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="TEACHER" schemaName="lessons"/>
+            </not>
+        </preConditions>
+        <comment>Создание таблицы TEACHER</comment>
+        <sql>
+            create table TEACHER (
+                id serial primary key,
+                idd int not null,
+                first_name varchar(50) not null,
+                middle_name varchar(50) not null,
+                last_name varchar(50) not null,
+                phone_number varchar(12) not null,
+                experience varchar(50) not null,
+                create_date timestamp(0) not null,
+                delete_date timestamp(0)
+            );
+        </sql>
+        <rollback>
+            <sql>
+                drop table if exists TEACHER;
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="20210602-01" author="martyshenko">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="STUDENT_GROUP" schemaName="lessons"/>
+            </not>
+        </preConditions>
+        <comment>Создание таблицы STUDENT_GROUP</comment>
+        <sql>
+            create table STUDENT_GROUP (
+                id serial primary key,
+                idd int not null,
+                specialty varchar(255) not null,
+                branch varchar(255) not null,
+                count int not null,
+                create_date timestamp(0) not null,
+                delete_date timestamp(0)
+            );
+        </sql>
+        <rollback>
+            <sql>
+                drop table if exists STUDENT_GROUP;
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="20210602-02" author="martyshenko">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="LOAD" schemaName="lessons"/>
+            </not>
+        </preConditions>
+        <comment>Создание таблицы LOAD</comment>
+        <sql>
+            create table LOAD (
+                id serial primary key,
+                idd int not null,
+                teacher_idd int not null,
+                student_group_idd int not null,
+                discipline varchar(512) not null,
+                type varchar(50) not null,
+                hours_count int not null,
+                wage int not null,
+                create_date timestamp(0) not null,
+                delete_date timestamp(0)
+            );
+        </sql>
+        <rollback>
+            <sql>
+                drop table if exists LOAD;
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="20210602-03" author="martyshenko">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="APP_USER" schemaName="lessons"/>
+            </not>
+        </preConditions>
+        <comment>Создание таблицы APP_USER</comment>
+        <sql>
+            create table APP_USER (
+                id serial primary key,
+                idd int not null,
+                login varchar(50),
+                password_hash varchar(50),
+                fio varchar(255),
+                is_active boolean,
+                last_login_date timestamp(0),
+                create_date timestamp(0) not null,
+                delete_date timestamp(0)
+            );
+        </sql>
+        <rollback>
+            <sql>
+                drop table if exists APP_USER;
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="20210610-00" author="martyshenko">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck  expectedResult="1">SELECT COUNT(1) FROM APP_USER WHERE login = 'admin'</sqlCheck>
+        </preConditions>
+        <comment>Создание пользователя admin</comment>
+        <sql>
+            insert into APP_USER (id, idd, login, password_hash, fio, is_active, last_login_date, create_date, delete_date) VALUES (2, 2, 'admin', 'c46741eb61584bf85188c4e7bbd6640e', 'admin', true, null, '2021-06-10 09:56:39', null);
+        </sql>
+        <rollback>
+            <sql>
+
+            </sql>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
