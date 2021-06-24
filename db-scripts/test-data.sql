@@ -1,4 +1,8 @@
--- lessons.teachers
+-- lessons.app_user
+
+insert into app_user (id, idd, login, password_hash, fio, is_active, last_login_date, create_date) values (1, 1,'admin', 'c46741eb61584bf85188c4e7bbd6640e', 'admin',true, now(), now());
+
+-- lessons.teacher
 
 INSERT INTO lessons.teacher (idd, first_name, middle_name, last_name, phone_number, experience, create_date) values (1, 'Михаил', 'Олегович', 'Васькин', '+79523365489', '1999-01-07 00:00:00', now()::timestamp);
 INSERT INTO lessons.teacher (idd, first_name, middle_name, last_name, phone_number, experience, create_date) values (2, 'Евгений', 'Васильевич', 'Пономарев', '+79425365347', '2003-03-27 00:00:00', now()::timestamp);
